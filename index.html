@@ -7,113 +7,275 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
    <style>
     * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
-}
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', 'Arial', sans-serif;
+    }
 
-body {
-    background-color: #f5f5f5;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-}
+    body {
+        background-color: #12192c;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+        color: #f0f2f5;
+    }
 
-.container {
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    width: 400px;
-    padding: 30px;
-    text-align: center;
-}
+    .container {
+        background-color: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border-radius: 16px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        width: 100%;
+        max-width: 450px;
+        padding: 40px 30px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
 
-h1 {
-    color: #333;
-    margin-bottom: 20px;
-}
+    .container::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
+        pointer-events: none;
+    }
 
-.form-group {
-    margin-bottom: 20px;
-    text-align: left;
-}
+    .logo {
+        margin-bottom: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-label {
-    display: block;
-    margin-bottom: 5px;
-    color: #555;
-    font-weight: 600;
-}
+    .logo i {
+        font-size: 32px;
+        color: #4285f4;
+        margin-right: 10px;
+    }
 
-input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 16px;
-    transition: border-color 0.3s;
-}
+    h1 {
+        color: #ffffff;
+        margin-bottom: 30px;
+        font-weight: 600;
+        font-size: 28px;
+        letter-spacing: 0.5px;
+    }
 
-input:focus {
-    outline: none;
-    border-color: #4285f4;
-}
+    .form-group {
+        margin-bottom: 25px;
+        text-align: left;
+        position: relative;
+    }
 
-button {
-    background-color: #4285f4;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 12px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    width: 100%;
-}
+    label {
+        display: block;
+        margin-bottom: 8px;
+        color: #a0a8c0;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s;
+    }
 
-button:hover {
-    background-color: #3367d6;
-}
+    .input-group {
+        position: relative;
+    }
 
-.message {
-    margin-top: 10px;
-    padding: 10px;
-    border-radius: 5px;
-}
+    input {
+        width: 100%;
+        padding: 15px 15px 15px 45px;
+        background-color: rgba(255, 255, 255, 0.07);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        font-size: 16px;
+        transition: all 0.3s;
+        color: #ffffff;
+    }
 
-.success {
-    background-color: #d4edda;
-    color: #155724;
-}
+    input:focus {
+        outline: none;
+        border-color: #4285f4;
+        background-color: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.2);
+    }
 
-.error {
-    background-color: #f8d7da;
-    color: #721c24;
-}
+    .input-icon {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #a0a8c0;
+    }
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
+    button {
+        background: linear-gradient(to right, #4285f4, #34a0ff);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 15px 20px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(66, 133, 244, 0.3);
+    }
+
+    button:hover {
+        background: linear-gradient(to right, #3367d6, #2185d0);
+        transform: translateY(-2px);
+    }
+
+    button:active {
+        transform: translateY(0);
+    }
+
+    .message {
+        margin-top: 20px;
+        padding: 12px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    .message:not(:empty) {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .success {
+        background-color: rgba(40, 167, 69, 0.15);
+        color: #7CFC00;
+        border: 1px solid rgba(40, 167, 69, 0.3);
+    }
+
+    .error {
+        background-color: rgba(220, 53, 69, 0.15);
+        color: #FF6B6B;
+        border: 1px solid rgba(220, 53, 69, 0.3);
+    }
+
+    .remember-me {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        justify-content: space-between;
+    }
+
+    .remember-checkbox {
+        display: flex;
+        align-items: center;
+    }
+
+    .remember-checkbox input[type="checkbox"] {
+        width: auto;
+        margin-right: 8px;
+        accent-color: #4285f4;
+    }
+
+    .forgot-password {
+        color: #4285f4;
+        font-size: 14px;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    .forgot-password:hover {
+        color: #34a0ff;
+        text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            padding: 30px 20px;
+        }
+        
+        h1 {
+            font-size: 24px;
+        }
+        
+        input {
+            padding: 12px 12px 12px 40px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .container {
+            border-radius: 12px;
+            padding: 25px 15px;
+        }
+        
+        h1 {
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+        
+        .remember-me {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .container {
+        animation: fadeIn 0.5s ease forwards;
+    }
    </style>
     
 </head>
 <body>
     <div class="container">
+        <!-- Logo and Title -->
+        <div class="logo">
+            <i class="fas fa-lock"></i>
+        </div>
+        
         <!-- Login Form -->
         <div id="login-form">
-            <h1>Admin Login</h1>
+            <h1>Admin Dashboard Login</h1>
             <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" placeholder="Enter your email">
+                <label for="email">Email Address</label>
+                <div class="input-group">
+                    <i class="fas fa-envelope input-icon"></i>
+                    <input type="email" id="email" placeholder="Enter your email">
+                </div>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" placeholder="Enter your password">
+                <div class="input-group">
+                    <i class="fas fa-key input-icon"></i>
+                    <input type="password" id="password" placeholder="Enter your password">
+                </div>
             </div>
-            <button id="login-btn">Login</button>
+            
+            <div class="remember-me">
+                <div class="remember-checkbox">
+                    <input type="checkbox" id="remember">
+                    <label for="remember" style="margin-bottom: 0;">Remember me</label>
+                </div>
+                <a href="#" class="forgot-password">Forgot Password?</a>
+            </div>
+            
+            <button id="login-btn">
+                <span>Log In</span>
+            </button>
             <div id="login-message" class="message"></div>
         </div>
     </div>
@@ -129,12 +291,79 @@ button:hover {
         // Event Listeners
         loginBtn.addEventListener('click', handleLogin);
         
-        // Check if user is already logged in
+        // Add Enter key support
+        document.getElementById('password').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                handleLogin();
+            }
+        });
+        
+        // Cookie functions to replace localStorage
+        function setCookie(name, value, days) {
+            try {
+                let expires = "";
+                if (days) {
+                    const date = new Date();
+                    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                    expires = "; expires=" + date.toUTCString();
+                }
+                document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Lax";
+                return true;
+            } catch (e) {
+                console.error("Error setting cookie:", e);
+                return false;
+            }
+        }
+        
+        function getCookie(name) {
+            try {
+                const nameEQ = name + "=";
+                const ca = document.cookie.split(';');
+                for(let i = 0; i < ca.length; i++) {
+                    let c = ca[i];
+                    while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+                    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+                }
+                return null;
+            } catch (e) {
+                console.error("Error getting cookie:", e);
+                return null;
+            }
+        }
+        
+        // Session storage alternative (will be kept in memory)
+        const sessionData = {};
+        
+        function setSessionItem(key, value) {
+            try {
+                sessionData[key] = value;
+                return true;
+            } catch (e) {
+                console.error("Error setting session item:", e);
+                return false;
+            }
+        }
+        
+        function getSessionItem(key) {
+            try {
+                return sessionData[key] || null;
+            } catch (e) {
+                console.error("Error getting session item:", e);
+                return null;
+            }
+        }
+        
+        // Check if user is already logged in using cookies instead of localStorage
         function checkLoginStatus() {
-            const isLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
-            if (isLoggedIn) {
-                // Redirect to index.html if already logged in
-                window.location.href = 'login.html';
+            try {
+                const isLoggedIn = getCookie('adminLoggedIn') === 'true' || getSessionItem('adminLoggedIn') === 'true';
+                if (isLoggedIn) {
+                    // Redirect to login.html if already logged in
+                    window.location.href = 'login.html';
+                }
+            } catch (e) {
+                console.error("Error checking login status:", e);
+                // Continue with login page if there's an error
             }
         }
         
@@ -142,6 +371,7 @@ button:hover {
         function handleLogin() {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('remember').checked;
             
             if (!email || !password) {
                 showMessage(loginMessage, 'Please enter both email and password', 'error');
@@ -150,14 +380,15 @@ button:hover {
             
             // Show loading state
             loginBtn.disabled = true;
-            loginBtn.textContent = 'Logging in...';
-            showMessage(loginMessage, 'Connecting to server...', '');
+            loginBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Logging in...';
+            showMessage(loginMessage, 'Authenticating...', '');
             
             // Create the request payload
             const payload = {
                 action: 'login',
                 email: email,
-                password: password
+                password: password,
+                remember: rememberMe
             };
             
             console.log('Sending login request with:', email);
@@ -187,14 +418,21 @@ button:hover {
             })
             .then(data => {
                 if (data.success) {
-                    // Login successful
-                    localStorage.setItem('adminLoggedIn', 'true');
+                    // Login successful - use cookies instead of localStorage
+                    if (rememberMe) {
+                        // Use cookie for persistent storage (7 days)
+                        setCookie('adminLoggedIn', 'true', 7);
+                    } else {
+                        // Use session storage for session-only storage
+                        setSessionItem('adminLoggedIn', 'true');
+                    }
+                    
                     showMessage(loginMessage, 'Login successful! Redirecting...', 'success');
                     
-                    // Redirect to index.html after successful login
+                    // Modified: Redirect to login.html after successful login instead of index.html
                     setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 1000); // Small delay to show the success message
+                        window.location.href = 'login.html';
+                    }, 1500); // Small delay to show the success message
                 } else {
                     // Login failed
                     showMessage(loginMessage, data.message || 'Login failed. Please check your credentials.', 'error');
@@ -215,7 +453,7 @@ button:hover {
             .finally(() => {
                 // Reset button state
                 loginBtn.disabled = false;
-                loginBtn.textContent = 'Login';
+                loginBtn.innerHTML = '<span>Log In</span>';
             });
         }
         
@@ -233,8 +471,13 @@ button:hover {
             }
         }
         
-        // Initialize
-        checkLoginStatus();
+        // Run initialization with try/catch to prevent errors
+        try {
+            checkLoginStatus();
+        } catch (e) {
+            console.error("Error during initialization:", e);
+            // Continue with login page if there's an error
+        }
     </script>
 </body>
 </html>
