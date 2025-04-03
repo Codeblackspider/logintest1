@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+   <style>
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    padding: 30px;
+    text-align: center;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+    font-weight: 600;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+input:focus {
+    outline: none;
+    border-color: #4285f4;
+}
+
+button {
+    background-color: #4285f4;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #3367d6;
+}
+
+.message {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+   </style>
+    
+</head>
+<body>
+    <div class="container">
+        <!-- Login Form -->
+        <div id="login-form">
+            <h1>Admin Login</h1>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password">
+            </div>
+            <button id="login-btn">Login</button>
+            <div id="login-message" class="message"></div>
+        </div>
+    </div>
+    <script>
+        // Google Apps Script Web App URL - IMPORTANT: Update this with your actual deployed web app URL
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxKHCFvAvcAYJVb-PjL2ALeE_lXrXD5DZf0sLZknR4eQn4A0ZcIE8R6Ku9-wtQHJvgZ/exec';
+               
+        // DOM Elements
+        const loginForm = document.getElementById('login-form');
+        const loginBtn = document.getElementById('login-btn');
+        const loginMessage = document.getElementById('login-message');
+        
+        // Event Listeners
+        loginBtn.addEventListener('click', handleLogin);
+        
+        // Check if user is already logged in
+        function checkLoginStatus() {
+            const isLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
+            if (isLoggedIn) {
+                // Redirect to index.html if already logged in
+                window.location.href = 'login.html';
+            }
+        }
+        
+        // Handle Login with better error handling
+        function handleLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            if (!email || !password) {
+                showMessage(loginMessage, 'Please enter both email and password', 'error');
+                return;
+            }
+            
+            // Show loading state
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Logging in...';
+            showMessage(loginMessage, 'Connecting to server...', '');
+            
+            // Create the request payload
+            const payload = {
+                action: 'login',
+                email: email,
+                password: password
+            };
+            
+            console.log('Sending login request with:', email);
+            
+            // Send login request to Google Apps Script with improved error handling
+            fetch(scriptURL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'text/plain',  // Changed from application/json to text/plain for Apps Script
+                },
+                body: JSON.stringify(payload)  // Convert object to JSON string
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok: ' + response.status);
+                }
+                return response.text();  // Get text first to debug potential JSON issues
+            })
+            .then(text => {
+                console.log('Raw response:', text);
+                try {
+                    return JSON.parse(text);  // Now parse the text to JSON
+                } catch (e) {
+                    console.error('JSON parse error:', e);
+                    throw new Error('Invalid JSON response from server');
+                }
+            })
+            .then(data => {
+                if (data.success) {
+                    // Login successful
+                    localStorage.setItem('adminLoggedIn', 'true');
+                    showMessage(loginMessage, 'Login successful! Redirecting...', 'success');
+                    
+                    // Redirect to index.html after successful login
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1000); // Small delay to show the success message
+                } else {
+                    // Login failed
+                    showMessage(loginMessage, data.message || 'Login failed. Please check your credentials.', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error details:', error);
+                
+                // More specific error message based on error type
+                if (error.message.includes('Failed to fetch')) {
+                    showMessage(loginMessage, 'Connection error. Please check your internet connection or the server might be down.', 'error');
+                } else if (error.message.includes('JSON')) {
+                    showMessage(loginMessage, 'Server response format error. Please contact support.', 'error');
+                } else {
+                    showMessage(loginMessage, 'An error occurred: ' + error.message, 'error');
+                }
+            })
+            .finally(() => {
+                // Reset button state
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Login';
+            });
+        }
+        
+        // Helper function to show messages
+        function showMessage(element, message, type) {
+            element.textContent = message;
+            element.className = 'message ' + type;
+            
+            // Only auto-clear success messages
+            if (type === 'success') {
+                setTimeout(() => {
+                    element.textContent = '';
+                    element.className = 'message';
+                }, 5000);
+            }
+        }
+        
+        // Initialize
+        checkLoginStatus();
+    </script>
+</body>
+</html>
